@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<model>
+    <entity name="Bar">
+        <stereotype name="class"/>
+        <attribute name="id" type="string"/>
+    </entity>
+    <entity name="Foo">
+        <stereotype name="class"/>
+        <attribute name="id" type="string"/>
+    </entity>
+    <entity name="Bars">
+        <stereotype name="service"/>
+        <method name="getBars" return="list(Bar)">
+            <attribute name="id" type="string"/>
+        </method>
+    </entity>
+</model>
