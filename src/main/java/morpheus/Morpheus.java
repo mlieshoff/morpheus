@@ -10,9 +10,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.xml.bind.JAXB;
@@ -81,28 +83,21 @@ public class Morpheus {
     log.info(" generate {}...", generatorProperties.getName());
     VelocityContext velocityContext = generatorProperties.getVelocityContext();
     Template template = velocityEngine.getTemplate(generatorProperties.getTemplateName());
-    for (EntityType entityType : modelType.getEntity()) {
-      if (isStereotypeApplyingFor(entityType, generatorProperties.getForStereotype())) {
-        Replacer replacer = findReplacer(generatorProperties.getLanguage());
-        StringWriter stringWriter = new StringWriter();
-        String filename = replacer.replaceFilename(generatorProperties.getFilenamePattern(), entityType);
-        velocityContext.internalPut("filename", filename);
-        velocityContext.internalPut("entity", entityType);
-        velocityContext.internalPut("properties", generatorProperties);
-        velocityContext.internalPut("helper", replacer);
-        template.merge(velocityContext, stringWriter);
-        String outputDirectoryName = generatorProperties.getOutputDirectory();
-        String sourceDirectoryName = generatorProperties.getSourceDirectory();
-        File baseDir = new File(".");
-        File outputDirectory = new File(baseDir, outputDirectoryName);
-        File sourceDirectory = new File(outputDirectory, sourceDirectoryName);
-        File file = new File(sourceDirectory, filename + "." + generatorProperties.getExtension());
-        try {
-          FileUtils.forceMkdir(sourceDirectory);
-          FileUtils.write(file, stringWriter.toString(), StandardCharsets.UTF_8);
-          log.info("write file {}", file.getAbsolutePath());
-        } catch (IOException e) {
-          log.error("error writing file {}", file.getAbsolutePath(), e);
+    Replacer replacer = findReplacer(generatorProperties.getLanguage());
+    if (generatorProperties.getForStereotype().startsWith("all-")) {
+      String subStereoType = generatorProperties.getForStereotype().substring("all-".length());
+      List<EntityType> entities = new ArrayList<>();
+      for (EntityType entityType : modelType.getEntity()) {
+        if (isStereotypeApplyingFor(entityType, subStereoType)) {
+          entities.add(entityType);
+        }
+      }
+      generateInternally(generatorProperties, velocityContext, template, replacer, generatorProperties.getFilenamePattern(), entities);
+    } else {
+      for (EntityType entityType : modelType.getEntity()) {
+        if (isStereotypeApplyingFor(entityType, generatorProperties.getForStereotype())) {
+          String filename = replacer.replaceFilename(generatorProperties.getFilenamePattern(), entityType);
+          generateInternally(generatorProperties, velocityContext, template, replacer, filename, entityType);
         }
       }
     }
@@ -114,6 +109,34 @@ public class Morpheus {
 
   private boolean isStereotypeApplyingFor(EntityType entityType, String forStereotype) {
     return entityType.getStereotype().stream().anyMatch(stereotype -> stereotype.getName().equals(forStereotype));
+  }
+
+  private void generateInternally(
+          GeneratorProperties generatorProperties,
+          VelocityContext velocityContext,
+          Template template,
+          Replacer replacer,
+          String filename,
+          Object object
+  ) {
+    StringWriter stringWriter = new StringWriter();
+    velocityContext.internalPut("filename", filename);
+    velocityContext.internalPut("object", object);
+    velocityContext.internalPut("properties", generatorProperties);
+    velocityContext.internalPut("helper", replacer);
+    template.merge(velocityContext, stringWriter);
+    String outputDirectoryName = generatorProperties.getOutputDirectory();
+    String sourceDirectoryName = generatorProperties.getSourceDirectory();
+    File outputDirectory = new File(outputDirectoryName);
+    File sourceDirectory = new File(outputDirectory, sourceDirectoryName);
+    File file = new File(sourceDirectory, filename + "." + generatorProperties.getExtension());
+    try {
+      FileUtils.forceMkdir(sourceDirectory);
+      FileUtils.write(file, stringWriter.toString(), StandardCharsets.UTF_8);
+      log.info("write file {}", file.getAbsolutePath());
+    } catch (IOException e) {
+      log.error("error writing file {}", file.getAbsolutePath(), e);
+    }
   }
 
 }

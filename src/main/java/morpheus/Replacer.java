@@ -8,4 +8,14 @@ public interface Replacer {
 
   String getPackageName(GeneratorProperties generatorProperties);
 
+  String getMethodName(String s);
+
+  String getGetterMethodName(String s);
+
+  String getReturnTypeName(String s);
+
+  String getMethodParameterTypeName(String s);
+
+  String getMethodParameterName(String s);
+
 }

@@ -2,7 +2,7 @@ package ${helper.getPackageName($properties)}
 
 public class ${filename} {
 
-#foreach( $attribute in $entity.attribute )
+#foreach( $attribute in $object.attribute )
     private final $attribute.name;
 #end
 
