@@ -1,5 +1,6 @@
 package morpheus;
 
+import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.EntityType;
 
 public interface Replacer {
@@ -12,10 +13,10 @@ public interface Replacer {
 
   String getGetterMethodName(String s);
 
-  String getReturnTypeName(String s);
+  String getTypeName(String s);
 
-  String getMethodParameterTypeName(String s);
+  String getAttributeName(String s);
 
-  String getMethodParameterName(String s);
+  String getAliasName(AttributeType attributeType);
 
 }

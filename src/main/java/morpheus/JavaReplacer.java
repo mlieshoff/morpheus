@@ -1,9 +1,11 @@
 package morpheus;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import org.apache.commons.lang.WordUtils;
 
+import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.EntityType;
 
 public class JavaReplacer implements Replacer {
@@ -24,22 +26,26 @@ public class JavaReplacer implements Replacer {
   }
 
   @Override
-  public String getMethodName(String s) {
-    return "";
-  }
-
-  @Override
-  public String getReturnTypeName(String s) {
-    return isBlank(s) ? "void" : s;
-  }
-
-  @Override
-  public String getMethodParameterTypeName(String s) {
+  public String getTypeName(String s) {
+    if (isBlank(s)) {
+      return "void";
+    }
+    s = s .replace("(", "<").replace(")", ">");
     return WordUtils.capitalize(s);
   }
 
   @Override
-  public String getMethodParameterName(String s) {
+  public String getAttributeName(String s) {
+    return WordUtils.uncapitalize(s);
+  }
+
+  @Override
+  public String getAliasName(AttributeType attributeType) {
+    return isBlank(attributeType.getAlias()) ? attributeType.getName() : attributeType.getAlias();
+  }
+
+  @Override
+  public String getMethodName(String s) {
     return WordUtils.uncapitalize(s);
   }
 

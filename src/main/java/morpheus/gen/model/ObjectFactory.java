@@ -74,6 +74,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ExtendType }
+     * 
+     */
+    public ExtendType createExtendType() {
+        return new ExtendType();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ModelType }{@code >}}
      * 
      */

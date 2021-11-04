@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="stereotype" type="{}stereotypeType" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="attribute" type="{}attributeType" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="method" type="{}methodType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="extend" type="{}extendType" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
@@ -35,13 +36,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "entityType", propOrder = {
     "stereotype",
     "attribute",
-    "method"
+    "method",
+    "extend"
 })
 public class EntityType {
 
     protected List<StereotypeType> stereotype;
     protected List<AttributeType> attribute;
     protected List<MethodType> method;
+    protected List<ExtendType> extend;
     @XmlAttribute(name = "name")
     protected String name;
 
@@ -130,6 +133,35 @@ public class EntityType {
             method = new ArrayList<MethodType>();
         }
         return this.method;
+    }
+
+    /**
+     * Gets the value of the extend property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the extend property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getExtend().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link ExtendType }
+     * 
+     * 
+     */
+    public List<ExtendType> getExtend() {
+        if (extend == null) {
+            extend = new ArrayList<ExtendType>();
+        }
+        return this.extend;
     }
 
     /**

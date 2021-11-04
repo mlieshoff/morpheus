@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="alias" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -31,6 +32,8 @@ public class AttributeType {
 
     @XmlAttribute(name = "name")
     protected String name;
+    @XmlAttribute(name = "alias")
+    protected String alias;
     @XmlAttribute(name = "type")
     protected String type;
 
@@ -56,6 +59,30 @@ public class AttributeType {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Ruft den Wert der alias-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Legt den Wert der alias-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAlias(String value) {
+        this.alias = value;
     }
 
     /**

@@ -2,6 +2,8 @@ package morpheus;
 
 import static morpheus.Preconditions.notEmpty;
 
+import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 
 import java.io.File;
@@ -40,6 +42,8 @@ public class GeneratorProperties {
     notEmpty("extension", getExtension());
     notEmpty("template", getTemplateName());
     notEmpty("language", getLanguage());
+    velocityContext.put("StringUtils", StringUtils.class);
+    velocityContext.put("WordUtils", WordUtils.class);
   }
 
   public String getName() {
