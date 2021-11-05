@@ -10,20 +10,19 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für extendType complex type.
+ * <p>Java-Klasse für contextType complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
- * &lt;complexType name="extendType">
+ * &lt;complexType name="contextType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="stereotype" type="{}stereotypeType" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="context" type="{}contextType" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="key" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -32,18 +31,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "extendType", propOrder = {
-    "stereotype",
-    "context"
+@XmlType(name = "contextType", propOrder = {
+    "stereotype"
 })
-public class ExtendType {
+public class ContextType {
 
     protected List<StereotypeType> stereotype;
-    protected List<ContextType> context;
-    @XmlAttribute(name = "name")
-    protected String name;
-    @XmlAttribute(name = "type")
-    protected String type;
+    @XmlAttribute(name = "key")
+    protected String key;
+    @XmlAttribute(name = "value")
+    protected String value;
 
     /**
      * Gets the value of the stereotype property.
@@ -75,80 +72,51 @@ public class ExtendType {
     }
 
     /**
-     * Gets the value of the context property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the context property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getContext().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ContextType }
-     * 
-     * 
-     */
-    public List<ContextType> getContext() {
-        if (context == null) {
-            context = new ArrayList<ContextType>();
-        }
-        return this.context;
-    }
-
-    /**
-     * Ruft den Wert der name-Eigenschaft ab.
+     * Ruft den Wert der key-Eigenschaft ab.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getKey() {
+        return key;
     }
 
     /**
-     * Legt den Wert der name-Eigenschaft fest.
+     * Legt den Wert der key-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setKey(String value) {
+        this.key = value;
     }
 
     /**
-     * Ruft den Wert der type-Eigenschaft ab.
+     * Ruft den Wert der value-Eigenschaft ab.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getType() {
-        return type;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Legt den Wert der type-Eigenschaft fest.
+     * Legt den Wert der value-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setType(String value) {
-        this.type = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
 }

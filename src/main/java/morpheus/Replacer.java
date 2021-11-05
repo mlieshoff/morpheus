@@ -1,6 +1,8 @@
 package morpheus;
 
+import java.util.List;
 import morpheus.gen.model.AttributeType;
+import morpheus.gen.model.ContextType;
 import morpheus.gen.model.EntityType;
 
 public interface Replacer {
@@ -11,12 +13,14 @@ public interface Replacer {
 
   String getMethodName(String s);
 
-  String getGetterMethodName(String s);
-
   String getTypeName(String s);
 
   String getAttributeName(String s);
 
   String getAliasName(AttributeType attributeType);
+
+  String findContextValue(List<ContextType> contextTypes, String key);
+
+  String concatAttributes(List<AttributeType> attributeTypes, String delimiter, String format);
 
 }

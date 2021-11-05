@@ -18,8 +18,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="entity" type="{}entityType" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="stereotype" type="{}stereotypeType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="entity" type="{}entityType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="context" type="{}contextType" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,13 +31,44 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "modelType", propOrder = {
+    "stereotype",
     "entity",
-    "stereotype"
+    "context"
 })
 public class ModelType {
 
-    protected List<EntityType> entity;
     protected List<StereotypeType> stereotype;
+    protected List<EntityType> entity;
+    protected List<ContextType> context;
+
+    /**
+     * Gets the value of the stereotype property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the stereotype property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getStereotype().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link StereotypeType }
+     * 
+     * 
+     */
+    public List<StereotypeType> getStereotype() {
+        if (stereotype == null) {
+            stereotype = new ArrayList<StereotypeType>();
+        }
+        return this.stereotype;
+    }
 
     /**
      * Gets the value of the entity property.
@@ -68,32 +100,32 @@ public class ModelType {
     }
 
     /**
-     * Gets the value of the stereotype property.
+     * Gets the value of the context property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the stereotype property.
+     * This is why there is not a <CODE>set</CODE> method for the context property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getStereotype().add(newItem);
+     *    getContext().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link StereotypeType }
+     * {@link ContextType }
      * 
      * 
      */
-    public List<StereotypeType> getStereotype() {
-        if (stereotype == null) {
-            stereotype = new ArrayList<StereotypeType>();
+    public List<ContextType> getContext() {
+        if (context == null) {
+            context = new ArrayList<ContextType>();
         }
-        return this.stereotype;
+        return this.context;
     }
 
 }

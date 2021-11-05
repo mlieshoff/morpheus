@@ -7,8 +7,9 @@
     <xs:element name="model" type="modelType"/>
     <xs:complexType name="modelType">
         <xs:sequence>
-            <xs:element type="entityType" name="entity" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element type="stereotypeType" name="stereotype" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="entityType" name="entity" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -18,15 +19,21 @@
             <xs:element type="attributeType" name="attribute" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element type="methodType" name="method" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element type="extendType" name="extend" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
     </xs:complexType>
 
     <xs:complexType name="stereotypeType">
         <xs:attribute type="xs:string" name="name"/>
+        <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
     </xs:complexType>
 
     <xs:complexType name="attributeType">
+        <xs:sequence>
+            <xs:element type="stereotypeType" name="stereotype" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
         <xs:attribute type="xs:string" name="alias"/>
         <xs:attribute type="xs:string" name="type"/>
@@ -34,8 +41,9 @@
 
     <xs:complexType name="methodType">
         <xs:sequence>
-            <xs:element type="attributeType" name="attribute" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element type="stereotypeType" name="stereotype" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="attributeType" name="attribute" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="return"/>
         <xs:attribute type="xs:string" name="name"/>
@@ -44,9 +52,18 @@
     <xs:complexType name="extendType">
         <xs:sequence>
             <xs:element type="stereotypeType" name="stereotype" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
         <xs:attribute type="xs:string" name="type"/>
+    </xs:complexType>
+
+    <xs:complexType name="contextType">
+        <xs:sequence>
+            <xs:element type="stereotypeType" name="stereotype" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="key"/>
+        <xs:attribute type="xs:string" name="value"/>
     </xs:complexType>
 
 </xs:schema>

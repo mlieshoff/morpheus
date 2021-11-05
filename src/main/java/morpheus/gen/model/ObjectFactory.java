@@ -66,6 +66,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ContextType }
+     * 
+     */
+    public ContextType createContextType() {
+        return new ContextType();
+    }
+
+    /**
      * Create an instance of {@link StereotypeType }
      * 
      */

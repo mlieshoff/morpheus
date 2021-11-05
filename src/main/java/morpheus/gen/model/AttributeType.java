@@ -1,6 +1,8 @@
 
 package morpheus.gen.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -16,6 +18,10 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType name="attributeType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="stereotype" type="{}stereotypeType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="context" type="{}contextType" maxOccurs="unbounded" minOccurs="0"/>
+ *       &lt;/sequence>
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="alias" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -27,15 +33,78 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "attributeType")
+@XmlType(name = "attributeType", propOrder = {
+    "stereotype",
+    "context"
+})
 public class AttributeType {
 
+    protected List<StereotypeType> stereotype;
+    protected List<ContextType> context;
     @XmlAttribute(name = "name")
     protected String name;
     @XmlAttribute(name = "alias")
     protected String alias;
     @XmlAttribute(name = "type")
     protected String type;
+
+    /**
+     * Gets the value of the stereotype property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the stereotype property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getStereotype().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link StereotypeType }
+     * 
+     * 
+     */
+    public List<StereotypeType> getStereotype() {
+        if (stereotype == null) {
+            stereotype = new ArrayList<StereotypeType>();
+        }
+        return this.stereotype;
+    }
+
+    /**
+     * Gets the value of the context property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the context property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getContext().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link ContextType }
+     * 
+     * 
+     */
+    public List<ContextType> getContext() {
+        if (context == null) {
+            context = new ArrayList<ContextType>();
+        }
+        return this.context;
+    }
 
     /**
      * Ruft den Wert der name-Eigenschaft ab.
