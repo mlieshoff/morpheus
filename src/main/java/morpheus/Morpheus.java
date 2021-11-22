@@ -33,6 +33,8 @@ public class Morpheus {
 
   private Map<String, Replacer> replacers = new HashMap<>();
 
+  private Helper helper;
+
   public static void main(String[] args) {
     new Morpheus().start(args);
   }
@@ -53,6 +55,7 @@ public class Morpheus {
   private void loadModel(File modelFile) {
     log.info("load model: {}", modelFile.getPath());
     modelType = JAXB.unmarshal(modelFile, ModelType.class);
+    helper = new Helper(modelType);
   }
 
   private void loadGeneratorProperties(File generatorPropertiesDir) {
@@ -116,20 +119,28 @@ public class Morpheus {
           VelocityContext velocityContext,
           Template template,
           Replacer replacer,
-          String filename,
+          String filenamePattern,
           Object object
   ) {
+    String outputDirectoryName = generatorProperties.getOutputDirectory();
+    String sourceDirectoryName = generatorProperties.getSourceDirectory();
+    String filename = filenamePattern;
+    if (object instanceof EntityType) {
+      EntityType entityType = (EntityType) object;
+      filename = replacer.replaceFilename(filenamePattern, entityType);
+      sourceDirectoryName = replacer.replaceFilename(sourceDirectoryName, entityType);
+      outputDirectoryName = replacer.replaceFilename(outputDirectoryName, entityType);
+    }
     StringWriter stringWriter = new StringWriter();
     velocityContext.internalPut("filename", filename);
     velocityContext.internalPut("object", object);
     velocityContext.internalPut("properties", generatorProperties);
-    velocityContext.internalPut("helper", replacer);
+    velocityContext.internalPut("replacer", replacer);
+    velocityContext.internalPut("helper", helper);
     template.merge(velocityContext, stringWriter);
-    String outputDirectoryName = generatorProperties.getOutputDirectory();
-    String sourceDirectoryName = generatorProperties.getSourceDirectory();
-    File outputDirectory = new File(outputDirectoryName);
-    File sourceDirectory = new File(outputDirectory, sourceDirectoryName);
-    File file = new File(sourceDirectory, filename + "." + generatorProperties.getExtension());
+    File outputDirectory = createFile(replacer, null, outputDirectoryName, object);
+    File sourceDirectory = createFile(replacer, outputDirectory, sourceDirectoryName, object);
+    File file = createFile(replacer, sourceDirectory, filename + "." + generatorProperties.getExtension(), object);
     try {
       FileUtils.forceMkdir(sourceDirectory);
       FileUtils.write(file, stringWriter.toString(), StandardCharsets.UTF_8);
@@ -137,6 +148,14 @@ public class Morpheus {
     } catch (IOException e) {
       log.error("error writing file {}", file.getAbsolutePath(), e);
     }
+  }
+
+  private File createFile(Replacer replacer, File dir, String filename, Object object) {
+    if (object instanceof EntityType) {
+      EntityType entityType = (EntityType) object;
+      filename = replacer.replaceFilename(filename, entityType);
+    }
+    return dir == null ? new File(filename) : new File(dir, filename);
   }
 
 }

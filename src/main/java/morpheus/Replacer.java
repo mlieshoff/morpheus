@@ -9,7 +9,7 @@ public interface Replacer {
 
   String replaceFilename(String s, EntityType entityType);
 
-  String getPackageName(GeneratorProperties generatorProperties);
+  String getPackageName(GeneratorProperties generatorProperties, EntityType entityType);
 
   String getMethodName(String s);
 

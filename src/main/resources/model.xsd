@@ -22,11 +22,14 @@
             <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="scope" default="default"/>
     </xs:complexType>
 
     <xs:complexType name="stereotypeType">
+        <xs:sequence>
+            <xs:element type="contextType" name="context"/>
+        </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
-        <xs:element type="contextType" name="context" maxOccurs="unbounded" minOccurs="0"/>
     </xs:complexType>
 
     <xs:complexType name="attributeType">

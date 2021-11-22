@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="context" type="{}contextType" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="scope" type="{http://www.w3.org/2001/XMLSchema}string" default="default" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -50,6 +51,8 @@ public class EntityType {
     protected List<ContextType> context;
     @XmlAttribute(name = "name")
     protected String name;
+    @XmlAttribute(name = "scope")
+    protected String scope;
 
     /**
      * Gets the value of the stereotype property.
@@ -218,6 +221,34 @@ public class EntityType {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Ruft den Wert der scope-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getScope() {
+        if (scope == null) {
+            return "default";
+        } else {
+            return scope;
+        }
+    }
+
+    /**
+     * Legt den Wert der scope-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setScope(String value) {
+        this.scope = value;
     }
 
 }
