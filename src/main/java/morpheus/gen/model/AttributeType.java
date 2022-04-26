@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="alias" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="scope" type="{http://www.w3.org/2001/XMLSchema}string" default="default" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -47,6 +48,8 @@ public class AttributeType {
     protected String alias;
     @XmlAttribute(name = "type")
     protected String type;
+    @XmlAttribute(name = "scope")
+    protected String scope;
 
     /**
      * Gets the value of the stereotype property.
@@ -176,6 +179,34 @@ public class AttributeType {
      */
     public void setType(String value) {
         this.type = value;
+    }
+
+    /**
+     * Ruft den Wert der scope-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getScope() {
+        if (scope == null) {
+            return "default";
+        } else {
+            return scope;
+        }
+    }
+
+    /**
+     * Legt den Wert der scope-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setScope(String value) {
+        this.scope = value;
     }
 
 }

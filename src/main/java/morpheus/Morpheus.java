@@ -40,8 +40,6 @@ public class Morpheus {
   }
 
   private void start(String[] args) {
-    replacers.put("java", new JavaReplacer());
-
     File modelFile = new File(args[0]);
     File generatorPropertiesDir = new File(args[1]);
     File templatesDir = new File(args[2]);
@@ -56,6 +54,7 @@ public class Morpheus {
     log.info("load model: {}", modelFile.getPath());
     modelType = JAXB.unmarshal(modelFile, ModelType.class);
     helper = new Helper(modelType);
+    replacers.put("java", new JavaReplacer(helper));
   }
 
   private void loadGeneratorProperties(File generatorPropertiesDir) {

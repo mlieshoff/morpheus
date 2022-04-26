@@ -17,6 +17,8 @@ public interface Replacer {
 
   String getAttributeName(String s);
 
+  String getPackageNamePrefix(GeneratorProperties generatorProperties, String scope, String typeName);
+
   String getAliasName(AttributeType attributeType);
 
   String findContextValue(List<ContextType> contextTypes, String key);
