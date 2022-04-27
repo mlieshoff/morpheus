@@ -25,4 +25,6 @@ public interface Replacer {
 
   String concatAttributes(List<AttributeType> attributeTypes, String delimiter, String format);
 
+  String getFixtureValue(AttributeType attributeType);
+
 }

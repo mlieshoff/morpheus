@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.ContextType;
 import morpheus.gen.model.EntityType;
+import morpheus.gen.model.StereotypeType;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -109,6 +110,17 @@ public class JavaReplacer implements Replacer {
       return "";
     }
     return basePackage.replace("{scope}", scope) + ".";
+  }
+
+  @Override
+  public String getFixtureValue(AttributeType attributeType) {
+    String type = attributeType.getType();
+    if ("long".equals(type)) {
+      return "4711L";
+    } else if ("String".equals(type)) {
+      return "\"" + attributeType.getName() + "\"";
+    }
+    return "undef";
   }
 
 }
