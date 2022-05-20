@@ -41,6 +41,7 @@
         <xs:attribute type="xs:string" name="alias"/>
         <xs:attribute type="xs:string" name="type"/>
         <xs:attribute type="xs:string" name="scope" default="default"/>
+        <xs:attribute type="xs:boolean" name="optional" default="false"/>
     </xs:complexType>
 
     <xs:complexType name="methodType">

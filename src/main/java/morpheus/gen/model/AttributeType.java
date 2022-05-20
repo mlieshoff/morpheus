@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;attribute name="alias" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="scope" type="{http://www.w3.org/2001/XMLSchema}string" default="default" />
+ *       &lt;attribute name="optional" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -50,6 +51,8 @@ public class AttributeType {
     protected String type;
     @XmlAttribute(name = "scope")
     protected String scope;
+    @XmlAttribute(name = "optional")
+    protected Boolean optional;
 
     /**
      * Gets the value of the stereotype property.
@@ -207,6 +210,34 @@ public class AttributeType {
      */
     public void setScope(String value) {
         this.scope = value;
+    }
+
+    /**
+     * Ruft den Wert der optional-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public boolean isOptional() {
+        if (optional == null) {
+            return false;
+        } else {
+            return optional;
+        }
+    }
+
+    /**
+     * Legt den Wert der optional-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setOptional(Boolean value) {
+        this.optional = value;
     }
 
 }

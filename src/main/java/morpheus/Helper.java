@@ -1,9 +1,13 @@
 package morpheus;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.EntityType;
 import morpheus.gen.model.ModelType;
 import morpheus.gen.model.StereotypeType;
@@ -27,7 +31,10 @@ public class Helper {
   }
 
   public boolean isStereotype(String stereotypeName, String scope, String typeName) {
-    EntityType entityType = getEntity(scope, typeName);
+    return isStereotype(stereotypeName, getEntity(scope, typeName));
+  }
+
+  public boolean isStereotype(String stereotypeName, EntityType entityType) {
     if (entityType != null) {
       for (StereotypeType stereotypeType : entityType.getStereotype()) {
         if (stereotypeType.getName().equals(stereotypeName)) {
@@ -36,6 +43,25 @@ public class Helper {
       }
     }
     return false;
+  }
+
+  public boolean isStereotype(String stereotypeName, AttributeType attributeType) {
+    if (attributeType != null) {
+      for (StereotypeType stereotypeType : attributeType.getStereotype()) {
+        if (stereotypeType.getName().equals(stereotypeName)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public List<AttributeType> getMandatoryAttributes(EntityType entityType) {
+    return entityType.getAttribute().stream().filter(attributeType -> !attributeType.isOptional()).collect(toList());
+  }
+
+  public List<AttributeType> getOptionalAttributes(EntityType entityType) {
+    return entityType.getAttribute().stream().filter(attributeType -> attributeType.isOptional()).collect(toList());
   }
 
   @EqualsAndHashCode

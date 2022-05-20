@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.ContextType;
 import morpheus.gen.model.EntityType;
-import morpheus.gen.model.StereotypeType;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -87,6 +86,7 @@ public class JavaReplacer implements Replacer {
 
   @Override
   public String concatAttributes(List<AttributeType> attributeTypes, String delimiter, String format) {
+    delimiter = delimiter.replace("$#LF#$", "\n");
     if (CollectionUtils.isNotEmpty(attributeTypes)) {
       StringBuilder s = new StringBuilder();
       for (int i = 0, n = attributeTypes.size(); i < n; i++) {
@@ -115,8 +115,10 @@ public class JavaReplacer implements Replacer {
   @Override
   public String getFixtureValue(AttributeType attributeType) {
     String type = attributeType.getType();
-    if ("long".equals(type)) {
+    if ("long".equals(type) || "Long".equals(type)) {
       return "4711L";
+    } else if ("int".equals(type) || "Integer".equals(type)) {
+      return "815";
     } else if ("String".equals(type)) {
       return "\"" + attributeType.getName() + "\"";
     }

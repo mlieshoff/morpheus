@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>morpheus</artifactId>
     <packaging>jar</packaging>
-    <version>1.M5.0</version>
+    <version>1.0.0</version>
     <groupId>morpheus</groupId>
     <url>http://maven.apache.org</url>
     <inceptionYear>2021</inceptionYear>
