@@ -1,15 +1,14 @@
 package morpheus;
 
 import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.WordUtils;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +32,14 @@ public class JavaReplacer implements Replacer {
 
   private String replaceEntityTypeProps(String s, EntityType entityType) {
     if (entityType != null) {
-      s = s.replace("{scope}", entityType.getScope());
+      s = s.replace("{scope}", entityType.getScope().replace(".", "/"));
     }
     return s;
   }
 
   @Override
   public String getPackageName(GeneratorProperties generatorProperties, EntityType entityType) {
-    return replaceEntityTypeProps(generatorProperties.getSourceDirectory().replace("/", "."), entityType);
+    return replaceEntityTypeProps(generatorProperties.getSourceDirectory(), entityType).replace("/", ".");
   }
 
   @Override
@@ -64,8 +63,6 @@ public class JavaReplacer implements Replacer {
   public String getAliasName(AttributeType attributeType) {
     return isBlank(attributeType.getAlias()) ? attributeType.getName() : attributeType.getAlias();
   }
-
-  private Map<Object, Map<String, String>> contextCache = new HashMap<>();
 
   @Override
   public String findContextValue(List<ContextType> contextTypes, String key) {
@@ -99,7 +96,7 @@ public class JavaReplacer implements Replacer {
       }
       return s.toString();
     }
-    return "";
+    return EMPTY;
   }
 
   @Override
@@ -107,7 +104,7 @@ public class JavaReplacer implements Replacer {
     String basePackage = generatorProperties.getSourceDirectory().replace("/", ".");
     EntityType entityType = helper.getEntity(scope, typeName);
     if (entityType == null) {
-      return "";
+      return EMPTY;
     }
     return basePackage.replace("{scope}", scope) + ".";
   }

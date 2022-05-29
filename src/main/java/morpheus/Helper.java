@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.EntityType;
 import morpheus.gen.model.ModelType;
 import morpheus.gen.model.StereotypeType;
 
+@Slf4j
 public class Helper {
 
   private final Map<Key, EntityType> entityTypeMap = new HashMap<>();
@@ -23,11 +25,19 @@ public class Helper {
   }
 
   public EntityType getEntity(String name) {
-    return entityTypeMap.get(new Key("default", name));
+    EntityType entityType = entityTypeMap.get(new Key("default", name));
+    if (entityType == null) {
+      log.warn("entity for '{}' not found!", name);
+    }
+    return entityType;
   }
 
   public EntityType getEntity(String scope, String name) {
-    return entityTypeMap.get(new Key(scope, name));
+    EntityType entityType = entityTypeMap.get(new Key(scope, name));
+    if (entityType == null) {
+      log.warn("entity for '{}/{}' not found!", scope, name);
+    }
+    return entityType;
   }
 
   public boolean isStereotype(String stereotypeName, String scope, String typeName) {
