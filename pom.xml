@@ -99,6 +99,11 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.1-jre</version>
+        </dependency>
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
@@ -160,6 +165,12 @@
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.3</version>
             <scope>runtime</scope>
+        </dependency>
+        <!-- Formatter -->
+        <dependency>
+            <groupId>com.google.googlejavaformat</groupId>
+            <artifactId>google-java-format</artifactId>
+            <version>1.17.0</version>
         </dependency>
     </dependencies>
     <distributionManagement>

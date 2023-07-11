@@ -1,11 +1,8 @@
 package morpheus;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-
+import com.google.googlejavaformat.java.Formatter;
+import com.google.googlejavaformat.java.FormatterException;
+import com.google.googlejavaformat.java.JavaFormatterOptions;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -21,6 +18,11 @@ import javax.xml.bind.JAXB;
 import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.EntityType;
 import morpheus.gen.model.ModelType;
+import org.apache.commons.io.FileUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 @Slf4j
 public class Morpheus {
@@ -34,6 +36,8 @@ public class Morpheus {
   private Map<String, Replacer> replacers = new HashMap<>();
 
   private Helper helper;
+
+  private Formatter formatter;
 
   public static void main(String[] args) {
     new Morpheus().start(args);
@@ -59,7 +63,8 @@ public class Morpheus {
 
   private void loadGeneratorProperties(File generatorPropertiesDir) {
     log.info("load generator properties: {}", generatorPropertiesDir.getPath());
-    Collection<File> files = FileUtils.listFiles(generatorPropertiesDir, new String[]{"properties"}, true);
+    Collection<File> files =
+        FileUtils.listFiles(generatorPropertiesDir, new String[] {"properties"}, true);
     for (File file : files) {
       GeneratorProperties generatorProperties = new GeneratorProperties(file);
       generatorProperties.init();
@@ -75,6 +80,11 @@ public class Morpheus {
   }
 
   private void generate() {
+    formatter =
+        new Formatter(
+            JavaFormatterOptions.builder()
+                .style(JavaFormatterOptions.Style.AOSP)
+                .build());
     log.info("start generation...");
     for (GeneratorProperties entry : properties) {
       generate(entry);
@@ -94,12 +104,20 @@ public class Morpheus {
           entities.add(entityType);
         }
       }
-      generateInternally(generatorProperties, velocityContext, template, replacer, generatorProperties.getFilenamePattern(), entities);
+      generateInternally(
+          generatorProperties,
+          velocityContext,
+          template,
+          replacer,
+          generatorProperties.getFilenamePattern(),
+          entities);
     } else {
       for (EntityType entityType : modelType.getEntity()) {
         if (isStereotypeApplyingFor(entityType, generatorProperties.getForStereotype())) {
-          String filename = replacer.replaceFilename(generatorProperties.getFilenamePattern(), entityType);
-          generateInternally(generatorProperties, velocityContext, template, replacer, filename, entityType);
+          String filename =
+              replacer.replaceFilename(generatorProperties.getFilenamePattern(), entityType);
+          generateInternally(
+              generatorProperties, velocityContext, template, replacer, filename, entityType);
         }
       }
     }
@@ -110,17 +128,17 @@ public class Morpheus {
   }
 
   private boolean isStereotypeApplyingFor(EntityType entityType, String forStereotype) {
-    return entityType.getStereotype().stream().anyMatch(stereotype -> stereotype.getName().equals(forStereotype));
+    return entityType.getStereotype().stream()
+        .anyMatch(stereotype -> stereotype.getName().equals(forStereotype));
   }
 
   private void generateInternally(
-          GeneratorProperties generatorProperties,
-          VelocityContext velocityContext,
-          Template template,
-          Replacer replacer,
-          String filenamePattern,
-          Object object
-  ) {
+      GeneratorProperties generatorProperties,
+      VelocityContext velocityContext,
+      Template template,
+      Replacer replacer,
+      String filenamePattern,
+      Object object) {
     String outputDirectoryName = generatorProperties.getOutputDirectory();
     String sourceDirectoryName = generatorProperties.getSourceDirectory();
     String filename = filenamePattern;
@@ -139,12 +157,18 @@ public class Morpheus {
     template.merge(velocityContext, stringWriter);
     File outputDirectory = createFile(replacer, null, outputDirectoryName, object);
     File sourceDirectory = createFile(replacer, outputDirectory, sourceDirectoryName, object);
-    File file = createFile(replacer, sourceDirectory, filename + "." + generatorProperties.getExtension(), object);
+    File file =
+        createFile(
+            replacer, sourceDirectory, filename + "." + generatorProperties.getExtension(), object);
     try {
       FileUtils.forceMkdir(sourceDirectory);
-      FileUtils.write(file, stringWriter.toString(), StandardCharsets.UTF_8);
+      String source = stringWriter.toString();
+      if (file.getName().endsWith(".java")) {
+        source = formatter.formatSourceAndFixImports(source);
+      }
+      FileUtils.write(file, source, StandardCharsets.UTF_8);
       log.info("write file {}", file.getAbsolutePath());
-    } catch (IOException e) {
+    } catch (IOException | FormatterException e) {
       log.error("error writing file {}", file.getAbsolutePath(), e);
     }
   }
@@ -156,5 +180,4 @@ public class Morpheus {
     }
     return dir == null ? new File(filename) : new File(dir, filename);
   }
-
 }
