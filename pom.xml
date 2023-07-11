@@ -61,8 +61,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
@@ -147,6 +147,20 @@
             <version>2.31.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- JAXB API v3.0.1 -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+        <!-- JAXB v3.0.2 reference implementation (curiously with com.sun coordinates) -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.3</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <repository>
@@ -157,7 +171,7 @@
     <repositories>
         <repository>
             <id>mlieshoff-repo</id>
-            <url>http://dl.bintray.com/mlieshoff/maven</url>
+            <url>https://dl.bintray.com/mlieshoff/maven</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
