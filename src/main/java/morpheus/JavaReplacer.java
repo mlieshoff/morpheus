@@ -4,6 +4,8 @@ import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.WordUtils;
 
@@ -122,4 +124,13 @@ public class JavaReplacer implements Replacer {
     return "undef";
   }
 
+  @Override
+  public String getVersion() {
+    return helper.getVersion();
+  }
+
+  @Override
+  public String getCurrentDate() {
+    return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+  }
 }

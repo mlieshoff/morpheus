@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -40,6 +41,8 @@ public class ModelType {
     protected List<StereotypeType> stereotype;
     protected List<EntityType> entity;
     protected List<ContextType> context;
+    @XmlAttribute(name = "version")
+    protected String version;
 
     /**
      * Gets the value of the stereotype property.
@@ -128,4 +131,7 @@ public class ModelType {
         return this.context;
     }
 
+    public String getVersion() {
+        return version;
+    }
 }

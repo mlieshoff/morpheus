@@ -27,4 +27,7 @@ public interface Replacer {
 
   String getFixtureValue(AttributeType attributeType);
 
+  String getVersion();
+
+  String getCurrentDate();
 }

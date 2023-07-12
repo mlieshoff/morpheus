@@ -16,9 +16,12 @@ import morpheus.gen.model.StereotypeType;
 @Slf4j
 public class Helper {
 
+  private final String version;
+
   private final Map<Key, EntityType> entityTypeMap = new HashMap<>();
 
   public Helper(ModelType modelType) {
+    this.version = modelType.getVersion();
     for (EntityType entityType : modelType.getEntity()) {
       entityTypeMap.put(new Key(entityType.getScope(), entityType.getName()), entityType);
     }
@@ -72,6 +75,10 @@ public class Helper {
 
   public List<AttributeType> getOptionalAttributes(EntityType entityType) {
     return entityType.getAttribute().stream().filter(attributeType -> attributeType.isOptional()).collect(toList());
+  }
+
+  public String getVersion() {
+    return version;
   }
 
   @EqualsAndHashCode
