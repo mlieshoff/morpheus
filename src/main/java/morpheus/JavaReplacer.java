@@ -6,9 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.WordUtils;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,13 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.ContextType;
 import morpheus.gen.model.EntityType;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.WordUtils;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JavaReplacer implements Replacer {
 
-  public static final Set<String> atomics = new HashSet<>(
-      asList("byte", "boolean", "short", "char", "int", "float", "long", "double", "String"));
+  public static final Set<String> atomics =
+      new HashSet<>(
+          asList("byte", "boolean", "short", "char", "int", "float", "long", "double", "String"));
 
   private final Helper helper;
 
@@ -41,7 +41,8 @@ public class JavaReplacer implements Replacer {
 
   @Override
   public String getPackageName(GeneratorProperties generatorProperties, EntityType entityType) {
-    return replaceEntityTypeProps(generatorProperties.getSourceDirectory(), entityType).replace("/", ".");
+    return replaceEntityTypeProps(generatorProperties.getSourceDirectory(), entityType)
+        .replace("/", ".");
   }
 
   @Override
@@ -84,14 +85,37 @@ public class JavaReplacer implements Replacer {
   }
 
   @Override
-  public String concatAttributes(List<AttributeType> attributeTypes, String delimiter, String format) {
+  public String concatAttributes(
+      List<AttributeType> attributeTypes, String delimiter, String format) {
+    return concatAttributes(attributeTypes, delimiter, format, EMPTY);
+  }
+
+  @Override
+  public String concatAttributes(
+      List<AttributeType> attributeTypes, String delimiter, String format, String innerDelimiter) {
     delimiter = delimiter.replace("$#LF#$", "\n");
     if (CollectionUtils.isNotEmpty(attributeTypes)) {
       StringBuilder s = new StringBuilder();
       for (int i = 0, n = attributeTypes.size(); i < n; i++) {
         AttributeType attributeType = attributeTypes.get(i);
-        s.append(format.replace("{type}", getTypeName(attributeType.getType()))
-            .replace("{name}", getAttributeName(attributeType.getName())));
+        String inner =
+            format
+                .replace("{type}", getTypeName(attributeType.getType()))
+                .replace("{name}", getAttributeName(attributeType.getName()));
+        String stringifyReplacePrefix = "String.valueOf(";
+        String stringifyReplaceSuffix = ")";
+        if (getTypeName(attributeType.getType()).equals("String")) {
+          stringifyReplacePrefix = "";
+          stringifyReplaceSuffix = "";
+        }
+        if (i < n - 1) {
+          inner = inner + innerDelimiter;
+        }
+        inner =
+            inner
+                .replace("$#stringify-begin#$", stringifyReplacePrefix)
+                .replace("$#stringify-end#$", stringifyReplaceSuffix);
+        s.append(inner);
         if (i < n - 1) {
           s.append(delimiter);
         }
@@ -102,7 +126,8 @@ public class JavaReplacer implements Replacer {
   }
 
   @Override
-  public String getPackageNamePrefix(GeneratorProperties generatorProperties, String scope, String typeName) {
+  public String getPackageNamePrefix(
+      GeneratorProperties generatorProperties, String scope, String typeName) {
     String basePackage = generatorProperties.getSourceDirectory().replace("/", ".");
     EntityType entityType = helper.getEntity(scope, typeName);
     if (entityType == null) {

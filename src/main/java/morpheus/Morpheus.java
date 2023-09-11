@@ -82,9 +82,7 @@ public class Morpheus {
   private void generate() {
     formatter =
         new Formatter(
-            JavaFormatterOptions.builder()
-                .style(JavaFormatterOptions.Style.AOSP)
-                .build());
+            JavaFormatterOptions.builder().style(JavaFormatterOptions.Style.AOSP).build());
     log.info("start generation...");
     for (GeneratorProperties entry : properties) {
       generate(entry);
@@ -164,11 +162,15 @@ public class Morpheus {
       FileUtils.forceMkdir(sourceDirectory);
       String source = stringWriter.toString();
       if (file.getName().endsWith(".java")) {
-        source = formatter.formatSourceAndFixImports(source);
+        try {
+          source = formatter.formatSourceAndFixImports(source);
+        } catch (FormatterException e) {
+          log.warn("could not format {}", file.getAbsolutePath(), e);
+        }
       }
       FileUtils.write(file, source, StandardCharsets.UTF_8);
       log.info("write file {}", file.getAbsolutePath());
-    } catch (IOException | FormatterException e) {
+    } catch (IOException e) {
       log.error("error writing file {}", file.getAbsolutePath(), e);
     }
   }

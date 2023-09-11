@@ -24,6 +24,7 @@ public interface Replacer {
   String findContextValue(List<ContextType> contextTypes, String key);
 
   String concatAttributes(List<AttributeType> attributeTypes, String delimiter, String format);
+  String concatAttributes(List<AttributeType> attributeTypes, String delimiter, String format, String innerDelimiter);
 
   String getFixtureValue(AttributeType attributeType);
 
