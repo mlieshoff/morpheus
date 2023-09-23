@@ -137,6 +137,16 @@ public class JavaReplacer implements Replacer {
   }
 
   @Override
+  public String getBasePackageName(GeneratorProperties generatorProperties) {
+    String basePackage = generatorProperties.getSourceDirectory().replace("/", ".");
+    int index = basePackage.indexOf(".");
+    if (index <= 0) {
+      index = basePackage.length();
+    }
+    return basePackage.substring(0, index);
+  }
+
+  @Override
   public String getFixtureValue(AttributeType attributeType) {
     String type = attributeType.getType();
     if ("long".equals(type) || "Long".equals(type)) {

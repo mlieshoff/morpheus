@@ -18,6 +18,7 @@ public interface Replacer {
   String getAttributeName(String s);
 
   String getPackageNamePrefix(GeneratorProperties generatorProperties, String scope, String typeName);
+  String getBasePackageName(GeneratorProperties generatorProperties);
 
   String getAliasName(AttributeType attributeType);
 
