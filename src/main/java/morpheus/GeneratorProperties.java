@@ -3,8 +3,8 @@ package morpheus;
 import static morpheus.Preconditions.notEmpty;
 
 import lombok.Getter;
-import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.velocity.VelocityContext;
 
 import java.io.File;

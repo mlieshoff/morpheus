@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.ContextType;
 import morpheus.gen.model.EntityType;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 @Slf4j
 @RequiredArgsConstructor
