@@ -2,6 +2,7 @@ package morpheus;
 
 import static morpheus.Preconditions.notEmpty;
 
+import lombok.Getter;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
@@ -18,6 +19,7 @@ public class GeneratorProperties {
 
   private final File file;
 
+  @Getter
   private final VelocityContext velocityContext = new VelocityContext();
 
   private final Properties properties = new Properties();
@@ -48,10 +50,6 @@ public class GeneratorProperties {
 
   public String getName() {
     return file.getName();
-  }
-
-  public VelocityContext getVelocityContext() {
-    return velocityContext;
   }
 
   public String getTemplateName() {

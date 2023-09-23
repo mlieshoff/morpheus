@@ -5,9 +5,9 @@
     <packaging>jar</packaging>
     <version>1.0.0</version>
     <groupId>morpheus</groupId>
-    <url>http://maven.apache.org</url>
+    <url>https://maven.apache.org</url>
     <inceptionYear>2021</inceptionYear>
-    <description>code genration project</description>
+    <description>code generation project</description>
     <developers>
         <developer>
             <id>michael.lieshoff (ML)</id>
@@ -27,7 +27,7 @@
     <licenses>
         <license>
             <name>Apache License Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
     <build>

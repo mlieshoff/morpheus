@@ -29,11 +29,11 @@ public class Morpheus {
 
   private ModelType modelType;
 
-  private Set<GeneratorProperties> properties = new HashSet<>();
+  private final Set<GeneratorProperties> properties = new HashSet<>();
 
   private VelocityEngine velocityEngine;
 
-  private Map<String, Replacer> replacers = new HashMap<>();
+  private final Map<String, Replacer> replacers = new HashMap<>();
 
   private Helper helper;
 
@@ -140,8 +140,7 @@ public class Morpheus {
     String outputDirectoryName = generatorProperties.getOutputDirectory();
     String sourceDirectoryName = generatorProperties.getSourceDirectory();
     String filename = filenamePattern;
-    if (object instanceof EntityType) {
-      EntityType entityType = (EntityType) object;
+    if (object instanceof EntityType entityType) {
       filename = replacer.replaceFilename(filenamePattern, entityType);
       sourceDirectoryName = replacer.replaceFilename(sourceDirectoryName, entityType);
       outputDirectoryName = replacer.replaceFilename(outputDirectoryName, entityType);
@@ -176,8 +175,7 @@ public class Morpheus {
   }
 
   private File createFile(Replacer replacer, File dir, String filename, Object object) {
-    if (object instanceof EntityType) {
-      EntityType entityType = (EntityType) object;
+    if (object instanceof EntityType entityType) {
       filename = replacer.replaceFilename(filename, entityType);
     }
     return dir == null ? new File(filename) : new File(dir, filename);

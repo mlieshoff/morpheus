@@ -5,8 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import morpheus.gen.model.AttributeType;
 import morpheus.gen.model.EntityType;
@@ -16,6 +15,7 @@ import morpheus.gen.model.StereotypeType;
 @Slf4j
 public class Helper {
 
+  @Getter
   private final String version;
 
   private final Map<Key, EntityType> entityTypeMap = new HashMap<>();
@@ -74,17 +74,8 @@ public class Helper {
   }
 
   public List<AttributeType> getOptionalAttributes(EntityType entityType) {
-    return entityType.getAttribute().stream().filter(attributeType -> attributeType.isOptional()).collect(toList());
+    return entityType.getAttribute().stream().filter(AttributeType::isOptional).collect(toList());
   }
 
-  public String getVersion() {
-    return version;
-  }
-
-  @EqualsAndHashCode
-  @RequiredArgsConstructor
-  static class Key {
-    final String scope;
-    final String name;
-  }
+  record Key (String scope, String name) {}
 }
