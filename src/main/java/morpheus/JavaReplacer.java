@@ -156,7 +156,7 @@ public class JavaReplacer implements Replacer {
     } else if ("String".equals(type)) {
       return "\"" + attributeType.getName() + "\"";
     }
-    return "undef";
+    return "null";
   }
 
   @Override

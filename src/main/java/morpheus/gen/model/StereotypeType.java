@@ -21,6 +21,12 @@ public class StereotypeType {
     @XmlAttribute(name = "name")
     protected String name;
 
+    @XmlAttribute(name = "key")
+    protected String key;
+
+    @XmlAttribute(name = "value")
+    protected String value;
+
     public void setContext(ContextType value) {
         this.context = value;
     }
